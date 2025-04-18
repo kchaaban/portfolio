@@ -50,8 +50,6 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 var repoName = "/portfolio";
 var vite_config_default = defineConfig({
-  base: repoName,
-  // ✅ moved here
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -72,7 +70,10 @@ var vite_config_default = defineConfig({
   root: path.resolve(import.meta.dirname, "client"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
-    emptyOutDir: true
+    // Adjusted for simplicity
+    emptyOutDir: true,
+    // Add the base path for GitHub Pages
+    base: repoName
   }
 });
 
