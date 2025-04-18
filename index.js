@@ -48,6 +48,7 @@ import react from "@vitejs/plugin-react";
 import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var repoName = "/YOUR_REPOSITORY_NAME";
 var vite_config_default = defineConfig({
   plugins: [
     react(),
@@ -68,8 +69,11 @@ var vite_config_default = defineConfig({
   },
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true
+    outDir: path.resolve(import.meta.dirname, "dist"),
+    // Adjusted for simplicity
+    emptyOutDir: true,
+    // Add the base path for GitHub Pages
+    base: repoName
   }
 });
 
