@@ -1,13 +1,36 @@
+import { useState, useEffect } from 'react';
 import { publications, publicationStats, featuredPublications } from "@/lib/data";
+import { parseBibFile } from "@/lib/utils";
 
 export default function Publications() {
+  const [bibPublications, setBibPublications] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/works.bib')
+      .then(response => response.text())
+      .then(text => {
+        const bibtexParse = require('bibtex-parse');
+        const entries = bibtexParse.entries(text);
+        setBibPublications(entries);
+      })
+      .catch(error => console.error('Error loading works.bib:', error));
+  }, []);
+
+  const handleBibUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const entries = await parseBibFile(file);
+      setBibPublications(entries);
+    }
+  };
+
   return (
     <section id="publications" className="mb-16 bg-white shadow-sm rounded-lg p-6 md:p-8">
       <div className="flex items-center mb-8">
         <h2 className="text-2xl font-heading font-bold text-gray-800">Publications</h2>
         <div className="ml-4 h-px bg-primary flex-grow"></div>
       </div>
-      
+
       <div className="mb-6">
         <div className="grid md:grid-cols-3 gap-4 text-center">
           {publicationStats.map((stat, index) => (
@@ -25,10 +48,10 @@ export default function Publications() {
           </a>
         </div>
       </div>
-      
+
       <div className="mt-8">
         <h3 className="text-lg font-heading font-semibold text-primary mb-4">Featured Publications</h3>
-        
+
         <div className="space-y-6">
           {featuredPublications.map((pub, index) => (
             <div key={index} className="border-l-4 border-primary-500 pl-4 py-1">
@@ -45,7 +68,7 @@ export default function Publications() {
             </div>
           ))}
         </div>
-        
+
         <div className="mt-6 text-center">
           <a href={publications.allPublicationsUrl} className="inline-block px-4 py-2 border border-primary text-primary rounded-md hover:bg-gray-50 transition-colors">
             View All Publications
