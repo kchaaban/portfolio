@@ -48,7 +48,7 @@ import react from "@vitejs/plugin-react";
 import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-var repoName = "/YOUR_REPOSITORY_NAME";
+var repoName = "/portfolio";
 var vite_config_default = defineConfig({
   plugins: [
     react(),
